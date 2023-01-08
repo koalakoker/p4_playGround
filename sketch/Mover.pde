@@ -2,6 +2,7 @@ class Mover {
   PVector position;
   PVector velocity;
   PVector acceleration;
+  float maxSpeed = 2;
   
   Mover(float x, float y) {
     position = new PVector(x, y);
@@ -11,6 +12,9 @@ class Mover {
   
   void update() {
     velocity.add(acceleration);
+    if (velocity.mag() > maxSpeed) {
+      velocity.setMag(maxSpeed);
+    }
     acceleration.mult(0);
     position.add(velocity);
   }
@@ -19,10 +23,10 @@ class Mover {
     acceleration.add(force);
   }
   
-  void display() {
+  void display(int moverColor) {
     noStroke();
-    fill(255);
-    circle(position.x, position.y, 5);
+    fill(moverColor, 50);
+    circle(position.x, position.y, 1);
   }
   
   void edge() {
