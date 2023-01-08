@@ -34,9 +34,13 @@ class WavePlane {
     return col + row * cols;
   }
   
-  float waveF(float x, float y, float t) {
-    float r = dist(0, 0, x / 20, y / 20);
-    return 50 * sin(r - waveSpeed * t)/constrain(r,1,100);
+  float zoff = 0;
+  
+  float quote(float x, float y, float t) {
+    float xoff = map(x,-side/2,side,0,5);
+    float yoff = map(y,-side/2,side,0,5);
+    float n = noise(xoff, yoff, zoff);
+    return map(n, 0, 1, 0, 100);
   }
   
   float x(int col) {
@@ -54,7 +58,7 @@ class WavePlane {
       for (int col = 0; col < cols; col++) {
         float x = this.x(col); 
         float y = this.y(row); 
-        float z = waveF(x, y, t);
+        float z = quote(x, y, t);
         point(x, y, z);
       }
     }
@@ -65,15 +69,15 @@ class WavePlane {
     for (int row = 0; row < rows; row++) {
       for (int col = 0; col < cols; col++) {
         PVector v1 = new PVector(x(col), y(row), 0);
-        v1.z = waveF(v1.x, v1.y, t);
+        v1.z = quote(v1.x, v1.y, t);
         if (col + 1 < cols) {
           PVector v2 = new PVector(x(col+1), y(row), 0);
-          v2.z = waveF(v2.x, v2.y, t);
+          v2.z = quote(v2.x, v2.y, t);
           drLine(v1, v2);
         }
         if (row + 1 < rows) {
           PVector v3 = new PVector(x(col), y(row+1), 0);
-          v3.z = waveF(v3.x, v3.y, t);
+          v3.z = quote(v3.x, v3.y, t);
           drLine(v1, v3);
         }
       }  
@@ -87,5 +91,6 @@ class WavePlane {
     rotateZ(0);
     //drPlaneDot();
     drPlaneLine();  
+    zoff += 0.01;
   }
 }

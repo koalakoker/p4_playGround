@@ -22,6 +22,6 @@ void draw() {
   
   background(0);
   int fps = 1000/deltaTime;
-  text(String.valueOf(fps), 50, 200);
+  text("fps:" + String.valueOf(fps), 50, 200);
   plane.draw();
 }
