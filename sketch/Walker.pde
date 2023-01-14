@@ -1,15 +1,31 @@
 class Walker {
   PVector pos;
   boolean stuck = false;
-  int r = 8;
+  int r = walkerRadius;
   
-  Walker(int x, int y) {
-    this.pos = new PVector(x, y);
+  Walker() {
+    this.pos = bornPosition();
+  }
+  
+  PVector bornPosition() {
+    int dir = floor(random(4));
+    if (dir == 0) {
+      pos = new PVector(floor(random(width)), 0);
+    } else if (dir == 1) {
+      pos = new PVector(floor(random(width)), height);
+    } else if (dir == 2) {
+      pos = new PVector(0, floor(random(height)));
+    } else {
+      pos = new PVector(width, floor(random(height)));
+    }
+    return pos;
   }
   
   void walk() {
     PVector vel = new PVector(random(-2,2), random(-2,2));
     this.pos.add(vel);
+    constrain(vel.x, 0, width);
+    constrain(vel.y, 0, height);
   }
   
   void draw() {
