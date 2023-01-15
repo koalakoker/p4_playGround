@@ -2,6 +2,7 @@ ArrayList<Walker> walkers = new ArrayList<Walker>();
 int walkersNum = 800;
 int iterations = 400;
 int walkerRadius = 2;
+int lastTime;
 
 ArrayList<PVector> tree = new ArrayList<PVector>();
 
@@ -38,6 +39,11 @@ void draw() {
   for (int i = 0; i < missing; i++) {
     walkers.add(new Walker());
   }
-  textSize(128);
-  text("word", 40, 120); 
+
+  int deltaTime = millis() - lastTime;
+  lastTime = millis();
+  int fps = 1000/deltaTime;
+  text("fps:" + String.valueOf(fps), 10, 15);
+  int activeWalkers = walkers.size();
+  text("walkers:" + String.valueOf(activeWalkers), 10, 35);
 }
