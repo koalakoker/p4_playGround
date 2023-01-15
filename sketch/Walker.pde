@@ -2,6 +2,7 @@ class Walker {
   PVector pos;
   boolean stuck = false;
   int r = walkerRadius;
+  int rSq = 4 * r * r;
   
   Walker() {
     this.pos = bornPosition();
@@ -33,15 +34,22 @@ class Walker {
     ellipse(pos.x, pos.y, 2 * r, 2 * r);
   }
   
-  boolean checkStuck(ArrayList<PVector> other) {
+  boolean checkStuck(Tree tree) {
+    ArrayList<PVector> other = tree.elements;
     for (int i = 0; i < other.size(); i++) {
       PVector posB = other.get(i);
-      if (dist(pos.x, pos.y, posB.x, posB.y) < 2 * r) {
+      if (distSq(pos, posB) < rSq) {
         this.stuck = true;
         return true;
       }
     }
     return false;  
+  }
+
+  float distSq(PVector a, PVector b) {
+    float xD = a.x - b.x;
+    float yD = a.y - b.y;
+    return (xD * xD) + (yD * yD);
   }
   
 }
