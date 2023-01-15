@@ -1,5 +1,5 @@
 ArrayList<Walker> walkers = new ArrayList<Walker>();
-int walkersNum = 200;
+int walkersNum = 100;
 int iterations = 800;
 int walkerRadius = 2;
 int lastTime;
@@ -52,4 +52,9 @@ void displayInfo() {
   text("fps:" + String.valueOf(fps), 10, 15);
   int activeWalkers = walkers.size();
   text("walkers:" + String.valueOf(activeWalkers), 10, 35);
+  int treeSize = tree.elements.size();
+  text("treeSize:" + String.valueOf(treeSize), 10, 55);
+  float duration = float(lastTime) / 1000;
+  text("elapsed:" + String.valueOf(duration), 10, 75);
+
 }

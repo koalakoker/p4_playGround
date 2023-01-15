@@ -50,9 +50,10 @@ class Walker {
   }
 
   float distSq(PVector a, PVector b) {
-    float xD = a.x - b.x;
-    float yD = a.y - b.y;
-    return (xD * xD) + (yD * yD);
+    int xD = int(a.x) - int(b.x);
+    int yD = int(a.y) - int(b.y);
+    int distSqInt = (xD * xD) + (yD * yD);
+    return float(distSqInt);
   }
   
 }
