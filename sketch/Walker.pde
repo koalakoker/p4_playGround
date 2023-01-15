@@ -31,16 +31,19 @@ class Walker {
   
   void draw() {
     fill(255);
+    noStroke();
     ellipse(pos.x, pos.y, 2 * r, 2 * r);
   }
   
   boolean checkStuck(Tree tree) {
-    ArrayList<PVector> other = tree.elements;
-    for (int i = 0; i < other.size(); i++) {
-      PVector posB = other.get(i);
-      if (distSq(pos, posB) < rSq) {
-        this.stuck = true;
-        return true;
+    if (tree.checkInside(this)) {
+      ArrayList<PVector> other = tree.elements;
+      for (int i = 0; i < other.size(); i++) {
+        PVector posB = other.get(i);
+        if (distSq(pos, posB) < rSq) {
+          this.stuck = true;
+          return true;
+        }
       }
     }
     return false;  

@@ -3,11 +3,12 @@ int walkersNum = 800;
 int iterations = 400;
 int walkerRadius = 2;
 int lastTime;
-Tree tree = new Tree();
+Tree tree;
 
 void setup() {
   size(800,600);
   fullScreen();
+  tree = new Tree();
   tree.add(new PVector(width/2, height/2));
   for (int i = 0; i < walkersNum; ++i) {
     walkers.add(new Walker());  
@@ -18,11 +19,7 @@ void setup() {
 void draw() {
   background(0);
   
-  for (int i = 0; i < tree.size(); i++) {
-    PVector pos = tree.get(i);
-    fill(255,0,100);
-    ellipse(pos.x, pos.y, walkerRadius * 2, walkerRadius * 2);
-  }
+  tree.draw();
 
   for (int i = 0; i < walkers.size(); ++i) {
     Walker walker = walkers.get(i);
