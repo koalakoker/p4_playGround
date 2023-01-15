@@ -24,8 +24,8 @@ class Walker {
   void walk() {
     PVector vel = new PVector(random(-2,2), random(-2,2));
     this.pos.add(vel);
-    constrain(vel.x, 0, width);
-    constrain(vel.y, 0, height);
+    pos.x = constrain(pos.x, 0, width);
+    pos.y = constrain(pos.y, 0, height);
   }
   
   void draw() {
