@@ -1,6 +1,6 @@
 ArrayList<Walker> walkers = new ArrayList<Walker>();
-int walkersNum = 800;
-int iterations = 400;
+int walkersNum = 200;
+int iterations = 800;
 int walkerRadius = 2;
 int lastTime;
 Tree tree;
