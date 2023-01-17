@@ -12,7 +12,28 @@ class Tree {
   
   void add(PVector newElement) {
     elements.add(newElement);
-    if (newElement.x - r < boundingRectTopLeft.x) {
+    updateBoundingRect(newElement);
+  }
+  
+  void draw() {
+    for (int i = 0; i < tree.elements.size(); i++) {
+      PVector pos = tree.elements.get(i);
+      fill(255,0,100);
+      noStroke();
+      ellipse(pos.x, pos.y, walkerRadius * 2, walkerRadius * 2);
+      drawBoundingRect();
+    }
+  }
+
+  boolean checkInside(Walker walker) {
+    return ((walker.pos.x + walker.r > boundingRectTopLeft.x) &&
+            (walker.pos.y + walker.r > boundingRectTopLeft.y) &&
+            (walker.pos.x - walker.r < boundingRectBottomRight.x) &&
+            (walker.pos.y - walker.r < boundingRectBottomRight.y));
+  }
+
+  void updateBoundingRect(PVector newElement) {
+  if (newElement.x - r < boundingRectTopLeft.x) {
       boundingRectTopLeft.x = newElement.x - r;
     }
     if (newElement.y - r < boundingRectTopLeft.y) {
@@ -25,26 +46,12 @@ class Tree {
       boundingRectBottomRight.y = newElement.y + r;
     }
   }
-  
-  void draw() {
-    for (int i = 0; i < tree.elements.size(); i++) {
-      PVector pos = tree.elements.get(i);
-      fill(255,0,100);
-      noStroke();
-      ellipse(pos.x, pos.y, walkerRadius * 2, walkerRadius * 2);
 
-      stroke(0, 255, 0);
-      noFill();
-      rectMode(CORNERS);
-      rect(boundingRectTopLeft.x, boundingRectTopLeft.y,
-      boundingRectBottomRight.x, boundingRectBottomRight.y);
-    }
-  }
-
-  boolean checkInside(Walker walker) {
-    return ((walker.pos.x + walker.r > boundingRectTopLeft.x) &&
-            (walker.pos.y + walker.r > boundingRectTopLeft.y) &&
-            (walker.pos.x - walker.r < boundingRectBottomRight.x) &&
-            (walker.pos.y - walker.r < boundingRectBottomRight.y));
+  void drawBoundingRect() {
+    stroke(0, 255, 0);
+    noFill();
+    rectMode(CORNERS);
+    rect(boundingRectTopLeft.x, boundingRectTopLeft.y,
+    boundingRectBottomRight.x, boundingRectBottomRight.y);
   }
 }
