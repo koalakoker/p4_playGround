@@ -21,7 +21,7 @@ class Tree {
       fill(255,0,100);
       noStroke();
       ellipse(pos.x, pos.y, walkerRadius * 2, walkerRadius * 2);
-      drawBoundingRect();
+      //drawBoundingRect();
     }
   }
 

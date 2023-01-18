@@ -4,26 +4,31 @@ class Walker {
   int r = walkerRadius;
   int rSq = 4 * r * r;
   
-  Walker() {
-    this.pos = bornPosition();
+  Walker(Tree tree) {
+    this.pos = bornPosition(tree);
   }
   
-  PVector bornPosition() {
+  PVector bornPosition(Tree tree) {
+    float topLine = tree.boundingRectTopLeft.y / 2;
+    float bottomLine = (height + tree.boundingRectBottomRight.y) / 2;
+    float leftLine = tree.boundingRectTopLeft.x / 2;
+    float rigthLine = (width + tree.boundingRectBottomRight.x) / 2;
+
     int dir = floor(random(4));
     if (dir == 0) {
-      pos = new PVector(floor(random(width)), 0);
+      pos = new PVector(floor(random(leftLine, rigthLine)), topLine);
     } else if (dir == 1) {
-      pos = new PVector(floor(random(width)), height);
+      pos = new PVector(floor(random(leftLine, rigthLine)), bottomLine);
     } else if (dir == 2) {
-      pos = new PVector(0, floor(random(height)));
+      pos = new PVector(leftLine, floor(random(topLine, bottomLine)));
     } else {
-      pos = new PVector(width, floor(random(height)));
+      pos = new PVector(rigthLine, floor(random(topLine, bottomLine)));
     }
     return pos;
   }
   
   void walk() {
-    PVector vel = new PVector(random(-2,2), random(-2,2));
+    PVector vel = new PVector(random(-4,4), random(-4,4));
     this.pos.add(vel);
     pos.x = constrain(pos.x, 0, width);
     pos.y = constrain(pos.y, 0, height);
@@ -38,11 +43,13 @@ class Walker {
   boolean checkStuck(Tree tree) {
     if (tree.checkInside(this)) {
       ArrayList<PVector> other = tree.elements;
-      for (int i = 0; i < other.size(); i++) {
+      for (int i = other.size() - 1; i >= 0; i--) {
         PVector posB = other.get(i);
-        if (distSq(pos, posB) < rSq) {
-          this.stuck = true;
-          return true;
+          if (distSq(pos, posB) < rSq) {
+            if (random(1) < stickyness) {
+              this.stuck = true;
+              return true;
+            }
         }
       }
     }

@@ -2,7 +2,7 @@ ArrayList<Walker> walkers = new ArrayList<Walker>();
 int walkersNum = 100;
 int iterations = 800;
 int walkerRadius = 2;
-int lastTime;
+float stickyness = 0.1;
 Tree tree;
 
 void setup() {
@@ -11,7 +11,7 @@ void setup() {
   tree = new Tree();
   tree.add(new PVector(width/2, height/2));
   for (int i = 0; i < walkersNum; ++i) {
-    walkers.add(new Walker());  
+    walkers.add(new Walker(tree));  
   }
   textSize(20); 
 }
@@ -20,6 +20,8 @@ void draw() {
   background(0);
   
   tree.draw();
+
+  frameRateCheck();
 
   for (int i = 0; i < walkers.size(); ++i) {
     Walker walker = walkers.get(i);
@@ -41,20 +43,31 @@ void draw() {
 void reborn() {
   int missing = walkersNum - walkers.size();
   for (int i = 0; i < missing; i++) {
-    walkers.add(new Walker());
+    walkers.add(new Walker(tree));
+  }
+}
+
+void frameRateCheck() {
+  if (frameRate < 30) {
+    if (walkersNum > 50) {
+      walkersNum--;
+    } else {
+      if (iterations > 1) {
+        iterations--;
+      } else {
+        noLoop();
+      }
+    }
+    
   }
 }
 
 void displayInfo() {
-  int deltaTime = millis() - lastTime;
-  lastTime = millis();
-  int fps = 1000/deltaTime;
-  text("fps:" + String.valueOf(fps), 10, 15);
+  text("fps: " + String.valueOf(frameRate), 10, 15);
   int activeWalkers = walkers.size();
-  text("walkers:" + String.valueOf(activeWalkers), 10, 35);
+  text("walkers: " + String.valueOf(activeWalkers), 10, 35);
   int treeSize = tree.elements.size();
-  text("treeSize:" + String.valueOf(treeSize), 10, 55);
-  float duration = float(lastTime) / 1000;
-  text("elapsed:" + String.valueOf(duration), 10, 75);
+  text("treeSize: " + String.valueOf(treeSize), 10, 55);
+  text("elapsed: " + String.valueOf(millis()/1000.0), 10, 75);
 
 }
