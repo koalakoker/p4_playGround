@@ -9,20 +9,15 @@ class Walker {
   }
   
   PVector bornPosition(Tree tree) {
-    float topLine = tree.boundingRectTopLeft.y / 2;
-    float bottomLine = (height + tree.boundingRectBottomRight.y) / 2;
-    float leftLine = tree.boundingRectTopLeft.x / 2;
-    float rigthLine = (width + tree.boundingRectBottomRight.x) / 2;
-
     int dir = floor(random(4));
     if (dir == 0) {
-      pos = new PVector(floor(random(leftLine, rigthLine)), topLine);
+      pos = new PVector(floor(random(tree.leftLine, tree.rigthLine)), tree.topLine);
     } else if (dir == 1) {
-      pos = new PVector(floor(random(leftLine, rigthLine)), bottomLine);
+      pos = new PVector(floor(random(tree.leftLine, tree.rigthLine)), tree.bottomLine);
     } else if (dir == 2) {
-      pos = new PVector(leftLine, floor(random(topLine, bottomLine)));
+      pos = new PVector(tree.leftLine, floor(random(tree.topLine, tree.bottomLine)));
     } else {
-      pos = new PVector(rigthLine, floor(random(topLine, bottomLine)));
+      pos = new PVector(tree.rigthLine, floor(random(tree.topLine, tree.bottomLine)));
     }
     return pos;
   }
@@ -30,8 +25,8 @@ class Walker {
   void walk() {
     PVector vel = new PVector(random(-4,4), random(-4,4));
     this.pos.add(vel);
-    pos.x = constrain(pos.x, 0, width);
-    pos.y = constrain(pos.y, 0, height);
+    pos.x = constrain(pos.x, tree.leftLine, tree.rigthLine);
+    pos.y = constrain(pos.y, tree.topLine, tree.bottomLine);
   }
   
   void draw() {

@@ -3,6 +3,10 @@ class Tree {
   ArrayList<PVector> elements = new ArrayList<PVector>();
   PVector boundingRectTopLeft;
   PVector boundingRectBottomRight;
+  float topLine;
+  float bottomLine;
+  float leftLine;
+  float rigthLine;
   int r = walkerRadius;
   
   Tree() {
@@ -33,7 +37,7 @@ class Tree {
   }
 
   void updateBoundingRect(PVector newElement) {
-  if (newElement.x - r < boundingRectTopLeft.x) {
+    if (newElement.x - r < boundingRectTopLeft.x) {
       boundingRectTopLeft.x = newElement.x - r;
     }
     if (newElement.y - r < boundingRectTopLeft.y) {
@@ -45,6 +49,10 @@ class Tree {
     if (newElement.y + r > boundingRectBottomRight.y) {
       boundingRectBottomRight.y = newElement.y + r;
     }
+    topLine = tree.boundingRectTopLeft.y / 2;
+    bottomLine = (height + tree.boundingRectBottomRight.y) / 2;
+    leftLine = tree.boundingRectTopLeft.x / 2;
+    rigthLine = (width + tree.boundingRectBottomRight.x) / 2;
   }
 
   void drawBoundingRect() {
