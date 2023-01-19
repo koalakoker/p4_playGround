@@ -3,6 +3,7 @@ int walkersNum = 100;
 int iterations = 800;
 int walkerRadius = 2;
 float stickyness = 0.1;
+boolean simulationRun = true;
 Tree tree;
 DisplayInfo log = new DisplayInfo();
 GrowRate growRate = new GrowRate();
@@ -23,22 +24,25 @@ void draw() {
   
   tree.draw();
 
-  frameRateCheck();
-
-  for (int i = 0; i < walkers.size(); ++i) {
-    Walker walker = walkers.get(i);
-    for (int j = 0; j < iterations; j++) {
-     walker.walk();
-     if (walker.checkStuck(tree)){
-       walkers.remove(i);
-       tree.add(new PVector(walker.pos.x, walker.pos.y));
-       break;
-     }
-    }    
-    walker.draw();
+  if (simulationRun) {
+    frameRateCheck();
+  
+    for (int i = 0; i < walkers.size(); ++i) {
+      Walker walker = walkers.get(i);
+      for (int j = 0; j < iterations; j++) {
+       walker.walk();
+       if (walker.checkStuck(tree)){
+         walkers.remove(i);
+         tree.add(new PVector(walker.pos.x, walker.pos.y));
+         break;
+       }
+      }    
+      walker.draw();
+    }
+    
+    reborn();
   }
   
-  reborn();
   displayInfo();
 }
 
@@ -57,7 +61,7 @@ void frameRateCheck() {
       if (iterations > 1) {
         iterations--;
       } else {
-        noLoop();
+        simulationRun = false;
       }
     }
     
