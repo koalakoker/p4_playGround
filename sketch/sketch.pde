@@ -5,6 +5,7 @@ int walkerRadius = 2;
 float stickyness = 0.1;
 Tree tree;
 DisplayInfo log = new DisplayInfo();
+GrowRate growRate = new GrowRate();
 
 void setup() {
   size(800,600);
@@ -72,9 +73,7 @@ void displayInfo() {
   int treeSize = tree.elements.size();
   log.print("treeSize: " + String.valueOf(treeSize));
   log.print("elapsed: " + elapsedTime());
-  
-  
-  log.print("grow rate: " + String.valueOf(growRate));
+  log.print("grow rate: " + String.valueOf(growRate.value()));
 }
 
 String elapsedTime() {

@@ -49,10 +49,11 @@ class Tree {
     if (newElement.y + r > boundingRectBottomRight.y) {
       boundingRectBottomRight.y = newElement.y + r;
     }
-    topLine = tree.boundingRectTopLeft.y / 2;
-    bottomLine = (height + tree.boundingRectBottomRight.y) / 2;
-    leftLine = tree.boundingRectTopLeft.x / 2;
-    rigthLine = (width + tree.boundingRectBottomRight.x) / 2;
+    int margin = 50;
+    topLine = tree.boundingRectTopLeft.y - margin;
+    bottomLine = tree.boundingRectBottomRight.y + margin;
+    leftLine = tree.boundingRectTopLeft.x - margin;
+    rigthLine = tree.boundingRectBottomRight.x + margin;
   }
 
   void drawBoundingRect() {
