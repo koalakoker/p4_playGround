@@ -4,6 +4,7 @@ int iterations = 800;
 int walkerRadius = 2;
 float stickyness = 0.1;
 Tree tree;
+DisplayInfo log = new DisplayInfo();
 
 void setup() {
   size(800,600);
@@ -63,11 +64,22 @@ void frameRateCheck() {
 }
 
 void displayInfo() {
-  text("fps: " + String.valueOf(frameRate), 10, 15);
+  log.begin();
+  log.print("fps: " + String.format("%.2f",frameRate));
   int activeWalkers = walkers.size();
-  text("walkers: " + String.valueOf(activeWalkers), 10, 35);
+  log.print("walkers: " + String.valueOf(activeWalkers));
+  log.print("iteration:" + String.valueOf(iterations));
   int treeSize = tree.elements.size();
-  text("treeSize: " + String.valueOf(treeSize), 10, 55);
-  text("elapsed: " + String.valueOf(millis()/1000.0), 10, 75);
+  log.print("treeSize: " + String.valueOf(treeSize));
+  log.print("elapsed: " + elapsedTime());
+  
+  
+  log.print("grow rate: " + String.valueOf(growRate));
+}
 
+String elapsedTime() {
+  float totalSeconds = millis()/1000.0;
+  int minutes = int(totalSeconds / 60);
+  int seconds = int(totalSeconds) % 60;
+  return String.format("%d", minutes)+"m:"+ String.format("%d",seconds) + "s";
 }
