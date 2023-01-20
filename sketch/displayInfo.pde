@@ -3,7 +3,7 @@ class DisplayInfo {
     int y;
     DisplayInfo() {}
     void print(String txt) {
-        fill(255, 255, 255);
+        fill(0);
         noStroke();
         text(txt, x, y);
         y += 20;

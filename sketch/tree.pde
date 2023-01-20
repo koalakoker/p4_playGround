@@ -22,7 +22,7 @@ class Tree {
   void draw() {
     for (int i = 0; i < tree.elements.size(); i++) {
       PVector pos = tree.elements.get(i);
-      fill(255,0,100);
+      fill(0);
       noStroke();
       ellipse(pos.x, pos.y, walkerRadius * 2, walkerRadius * 2);
       //drawBoundingRect();

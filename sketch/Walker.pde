@@ -30,7 +30,7 @@ class Walker {
   }
   
   void draw() {
-    fill(255);
+    fill(0);
     noStroke();
     ellipse(pos.x, pos.y, 2 * r, 2 * r);
   }

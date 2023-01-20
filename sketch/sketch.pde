@@ -2,7 +2,7 @@ ArrayList<Walker> walkers = new ArrayList<Walker>();
 int walkersNum = 100;
 int iterations = 800;
 int walkerRadius = 2;
-float stickyness = 0.1;
+float stickyness = 0.5;
 boolean simulationRun = true;
 Tree tree;
 DisplayInfo log = new DisplayInfo();
@@ -20,13 +20,12 @@ void setup() {
 }
 
 void draw() {
-  background(0);
+  background(255);
   
   tree.draw();
-
-  if (simulationRun) {
-    frameRateCheck();
   
+  frameRateCheck();
+  if (simulationRun) {
     for (int i = 0; i < walkers.size(); ++i) {
       Walker walker = walkers.get(i);
       for (int j = 0; j < iterations; j++) {
@@ -39,8 +38,9 @@ void draw() {
       }    
       walker.draw();
     }
-    
     reborn();
+  } else {
+    noLoop();
   }
   
   displayInfo();
@@ -53,18 +53,30 @@ void reborn() {
   }
 }
 
+float integral = 0.0;
+float kp = 100.0;
+float ki = 0;
+float maxOut = 800.0;
+float minOut = 1.0;
+float frameRateTarget = 5;
+
+int iter(float error) {
+  integral += error * ki;
+  float out = (error * kp) + integral;
+  if (out > maxOut) {
+    out = maxOut;
+  }
+  if (out < minOut) {
+    out = minOut;
+  }
+  return int(out);
+}
+
 void frameRateCheck() {
-  if (frameRate < 30) {
-    if (walkersNum > 50) {
-      walkersNum--;
-    } else {
-      if (iterations > 1) {
-        iterations--;
-      } else {
-        simulationRun = false;
-      }
-    }
-    
+  iterations = iter(frameRate - frameRateTarget); 
+  
+  if (tree.elements.size() >= 10000) {
+    simulationRun = false;
   }
 }
 
