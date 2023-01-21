@@ -2,6 +2,8 @@ ArrayList<Walker> walkers = new ArrayList<Walker>();
 int walkersNum = 100;
 int iterations = 800;
 int walkerRadius = 2;
+float startingRadius = 300;
+int margin = 50;
 float stickyness = 0.5;
 boolean simulationRun = true;
 Tree tree;
@@ -14,14 +16,14 @@ void setup() {
   tree = new Tree();
   
   for (float angle = 0.0;  angle < 6.28; angle += 0.01) {
-    float r = 300;
+    float r = startingRadius;
     float x = r * sin(angle);
     float y = r * cos(angle);
     tree.add(new PVector((width/2) + x, (height/2) + y));
   }
   
   for (int i = 0; i < walkersNum; ++i) {
-    walkers.add(new Walker());  
+    walkers.add(new Walker(tree));  
   }
   textSize(20);
   
@@ -38,7 +40,7 @@ void draw() {
     for (int i = 0; i < walkers.size(); ++i) {
       Walker walker = walkers.get(i);
       for (int j = 0; j < iterations; j++) {
-       walker.walk();
+       walker.walk(tree);
        if (walker.checkStuck(tree)){
          walkers.remove(i);
          tree.add(new PVector(walker.pos.x, walker.pos.y));
@@ -58,7 +60,7 @@ void draw() {
 void reborn() {
   int missing = walkersNum - walkers.size();
   for (int i = 0; i < missing; i++) {
-    walkers.add(new Walker());
+    walkers.add(new Walker(tree));
   }
 }
 

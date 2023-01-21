@@ -1,22 +1,19 @@
 class Tree {
   
   ArrayList<PVector> elements = new ArrayList<PVector>();
-  PVector boundingRectTopLeft;
-  PVector boundingRectBottomRight;
-  float topLine;
-  float bottomLine;
-  float leftLine;
-  float rigthLine;
+  PVector boundingCenter;
+  float boundingRadius;
+  float marginRadius;
   int r = walkerRadius;
   
   Tree() {
-    boundingRectTopLeft = new PVector(width/2, height/2);
-    boundingRectBottomRight = new PVector(width /2, height/2);
+    boundingCenter = new PVector(width/2, height/2);
+    boundingRadius = startingRadius;
   }
   
   void add(PVector newElement) {
     elements.add(newElement);
-    updateBoundingRect(newElement);
+    updateBounding(newElement);
   }
   
   void draw() {
@@ -25,42 +22,32 @@ class Tree {
       fill(0);
       noStroke();
       ellipse(pos.x, pos.y, walkerRadius * 2, walkerRadius * 2);
-      //drawBoundingRect();
     }
+    drawBounding();
   }
 
-  boolean checkInside(Walker walker) {
-    return ((walker.pos.x + walker.r > boundingRectTopLeft.x) &&
-            (walker.pos.y + walker.r > boundingRectTopLeft.y) &&
-            (walker.pos.x - walker.r < boundingRectBottomRight.x) &&
-            (walker.pos.y - walker.r < boundingRectBottomRight.y));
+  boolean checkInsideBounding(PVector pos) {
+    float dist = PVector.sub(boundingCenter, pos).mag();
+    return (dist <  boundingRadius);
+  }
+  
+  boolean checkInsideMargin(PVector pos) {
+    float dist = PVector.sub(boundingCenter, pos).mag();
+    return (dist <  marginRadius);
   }
 
-  void updateBoundingRect(PVector newElement) {
-    if (newElement.x - r < boundingRectTopLeft.x) {
-      boundingRectTopLeft.x = newElement.x - r;
+  void updateBounding(PVector newElement) {
+    float dist = PVector.sub(boundingCenter, newElement).mag();
+    if (dist < boundingRadius) {
+      boundingRadius = dist;
     }
-    if (newElement.y - r < boundingRectTopLeft.y) {
-      boundingRectTopLeft.y = newElement.y - r;
-    }
-    if (newElement.x + r > boundingRectBottomRight.x) {
-      boundingRectBottomRight.x = newElement.x + r;
-    }
-    if (newElement.y + r > boundingRectBottomRight.y) {
-      boundingRectBottomRight.y = newElement.y + r;
-    }
-    int margin = 50;
-    topLine = tree.boundingRectTopLeft.y - margin;
-    bottomLine = tree.boundingRectBottomRight.y + margin;
-    leftLine = tree.boundingRectTopLeft.x - margin;
-    rigthLine = tree.boundingRectBottomRight.x + margin;
+    
+    marginRadius = boundingRadius - margin;
   }
 
-  void drawBoundingRect() {
+  void drawBounding() {
     stroke(0, 255, 0);
     noFill();
-    rectMode(CORNERS);
-    rect(boundingRectTopLeft.x, boundingRectTopLeft.y,
-    boundingRectBottomRight.x, boundingRectBottomRight.y);
+    circle(boundingCenter.x, boundingCenter.y, boundingRadius * 2);
   }
 }
