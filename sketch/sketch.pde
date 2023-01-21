@@ -12,11 +12,20 @@ void setup() {
   size(800,600);
   fullScreen();
   tree = new Tree();
-  tree.add(new PVector(width/2, height/2));
-  for (int i = 0; i < walkersNum; ++i) {
-    walkers.add(new Walker(tree));  
+  
+  for (float angle = 0.0;  angle < 6.28; angle += 0.01) {
+    float r = 300;
+    float x = r * sin(angle);
+    float y = r * cos(angle);
+    tree.add(new PVector((width/2) + x, (height/2) + y));
   }
-  textSize(20); 
+  
+  for (int i = 0; i < walkersNum; ++i) {
+    walkers.add(new Walker());  
+  }
+  textSize(20);
+  
+  
 }
 
 void draw() {
@@ -49,7 +58,7 @@ void draw() {
 void reborn() {
   int missing = walkersNum - walkers.size();
   for (int i = 0; i < missing; i++) {
-    walkers.add(new Walker(tree));
+    walkers.add(new Walker());
   }
 }
 

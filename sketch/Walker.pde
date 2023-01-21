@@ -4,29 +4,13 @@ class Walker {
   int r = walkerRadius;
   int rSq = 4 * r * r;
   
-  Walker(Tree tree) {
-    this.pos = bornPosition(tree);
-  }
-  
-  PVector bornPosition(Tree tree) {
-    int dir = floor(random(4));
-    if (dir == 0) {
-      pos = new PVector(floor(random(tree.leftLine, tree.rigthLine)), tree.topLine);
-    } else if (dir == 1) {
-      pos = new PVector(floor(random(tree.leftLine, tree.rigthLine)), tree.bottomLine);
-    } else if (dir == 2) {
-      pos = new PVector(tree.leftLine, floor(random(tree.topLine, tree.bottomLine)));
-    } else {
-      pos = new PVector(tree.rigthLine, floor(random(tree.topLine, tree.bottomLine)));
-    }
-    return pos;
+  Walker() {
+    this.pos = new PVector(width / 2, height / 2);
   }
   
   void walk() {
     PVector vel = new PVector(random(-4,4), random(-4,4));
     this.pos.add(vel);
-    pos.x = constrain(pos.x, tree.leftLine, tree.rigthLine);
-    pos.y = constrain(pos.y, tree.topLine, tree.bottomLine);
   }
   
   void draw() {
