@@ -19,12 +19,10 @@ class Walker {
   void walk(Tree tree) {
     PVector vel = new PVector(random(-4,4), random(-4,4));
     PVector newPos = PVector.add(this.pos, vel);
-    if (!tree.checkInsideMargin(newPos)) {
+    if (tree.checkInsideMargin(newPos)) {
       newPos = PVector.sub(this.pos, vel);
     }
-    this.pos.add(vel);
-    //pos.x = constrain(pos.x, tree.leftLine, tree.rigthLine);
-    //pos.y = constrain(pos.y, tree.topLine, tree.bottomLine);
+    this.pos = newPos;
   }
   
   void draw() {
@@ -34,7 +32,7 @@ class Walker {
   }
   
   boolean checkStuck(Tree tree) {
-    if (tree.checkInside(this)) {
+    //if (!tree.checkInsideBounding(this.pos)) {
       ArrayList<PVector> other = tree.elements;
       for (int i = other.size() - 1; i >= 0; i--) {
         PVector posB = other.get(i);
@@ -44,7 +42,7 @@ class Walker {
               return true;
             }
         }
-      }
+     // }
     }
     return false;  
   }
